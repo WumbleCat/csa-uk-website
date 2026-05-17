@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 0 24px;
+}
+
+.title {
+  font-family: var(--font-cormorant), serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.link {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--navy);
+  border-bottom: 1px solid var(--navy-ul);
+  padding-bottom: 1px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--navy-light);
+}

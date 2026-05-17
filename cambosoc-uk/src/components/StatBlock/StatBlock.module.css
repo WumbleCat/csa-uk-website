@@ -1,0 +1,33 @@
+.block {
+  flex: 1;
+  text-align: center;
+  padding: 16px 0;
+  border-top: 1px solid var(--cream-border);
+}
+
+.block:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.sidebar {
+  text-align: left;
+}
+
+.number {
+  display: block;
+  font-family: var(--font-cormorant), serif;
+  font-size: 44px;
+  font-weight: 400;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.label {
+  display: block;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--ink-faint);
+  margin-top: 4px;
+}
