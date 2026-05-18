@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { checkRateLimit, markRateLimit } from '@/lib/rateLimit';
+import SITE_URL from '@/lib/siteUrl';
 import styles from './signup.module.css';
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -52,7 +53,7 @@ export default function SignupForm() {
           university,
           grad_year: gradYear,
         },
-        emailRedirectTo: `https://csa-uk-website-iota.vercel.app/auth/callback`,
+        emailRedirectTo: `${SITE_URL}/auth/callback`,
       },
     });
 
@@ -77,7 +78,7 @@ export default function SignupForm() {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `https://csa-uk-website-iota.vercel.app/auth/callback` },
+      options: { redirectTo: `${SITE_URL}/auth/callback` },
     });
   }
 

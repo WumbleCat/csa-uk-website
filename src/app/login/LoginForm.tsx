@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import SITE_URL from '@/lib/siteUrl';
 import styles from './login.module.css';
 
 export default function LoginForm() {
@@ -36,7 +37,7 @@ export default function LoginForm() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `https://csa-uk-website-iota.vercel.app/auth/callback`,
+        redirectTo: `${SITE_URL}/auth/callback`,
       },
     });
   }

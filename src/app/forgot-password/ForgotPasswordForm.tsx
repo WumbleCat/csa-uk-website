@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { checkRateLimit, markRateLimit } from '@/lib/rateLimit';
+import SITE_URL from '@/lib/siteUrl';
 import styles from './forgot-password.module.css';
 
 export default function ForgotPasswordForm() {
@@ -25,7 +26,7 @@ export default function ForgotPasswordForm() {
 
     const supabase = createClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `https://csa-uk-website-iota.vercel.app/auth/callback?next=/auth/reset-password`,
+      redirectTo: `${SITE_URL}/auth/callback?next=/auth/reset-password`,
     });
 
     if (error) {
