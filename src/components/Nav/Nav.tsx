@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/client';
@@ -17,14 +17,28 @@ const links = [
 
 export default function Nav() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
+  async function handleSignOut() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setOpen(false);
+    router.push('/');
+    router.refresh();
+  }
+
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
+    supabase.auth.getUser().then(async ({ data, error }) => {
+      if (error || !data.user) {
+        await supabase.auth.signOut();
+        setUser(null);
+      } else {
+        setUser(data.user);
+      }
       setAuthLoading(false);
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
@@ -61,12 +75,17 @@ export default function Nav() {
           {authLoading ? (
             <span className={styles.authLoading}>···</span>
           ) : user ? (
-            <Link
-              href="/account"
-              className={`${styles.link} ${pathname === '/account' ? styles.active : ''}`}
-            >
-              Account
-            </Link>
+            <>
+              <Link
+                href="/account"
+                className={`${styles.link} ${pathname === '/account' ? styles.active : ''}`}
+              >
+                Account
+              </Link>
+              <button className={styles.signOutBtn} onClick={handleSignOut}>
+                Sign out
+              </button>
+            </>
           ) : (
             <Link
               href="/signup"
@@ -106,13 +125,18 @@ export default function Nav() {
           {authLoading ? (
             <span className={`${styles.mobileLink} ${styles.authLoading}`}>···</span>
           ) : user ? (
-            <Link
-              href="/account"
-              className={`${styles.mobileLink} ${pathname === '/account' ? styles.mobileLinkActive : ''}`}
-              onClick={() => setOpen(false)}
-            >
-              Account
-            </Link>
+            <>
+              <Link
+                href="/account"
+                className={`${styles.mobileLink} ${pathname === '/account' ? styles.mobileLinkActive : ''}`}
+                onClick={() => setOpen(false)}
+              >
+                Account
+              </Link>
+              <button className={`${styles.mobileLink} ${styles.mobileSignOut}`} onClick={handleSignOut}>
+                Sign out
+              </button>
+            </>
           ) : (
             <Link
               href="/signup"
