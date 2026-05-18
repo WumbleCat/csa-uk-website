@@ -73,6 +73,10 @@ export default function LoginForm() {
 
       {error && <p className={styles.error} role="alert">{error}</p>}
 
+      <div className={styles.forgotRow}>
+        <Link href="/forgot-password" className={styles.forgotLink}>Forgot password?</Link>
+      </div>
+
       <button type="submit" className={styles.submitBtn} disabled={loading}>
         {loading ? 'Signing in…' : 'Sign in'}
       </button>

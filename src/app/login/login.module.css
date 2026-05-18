@@ -86,6 +86,27 @@
   margin-bottom: 12px;
 }
 
+.forgotRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.forgotLink {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 13px;
+  color: var(--ink-muted);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.forgotLink:hover {
+  color: var(--navy);
+  text-decoration-color: var(--navy-ul);
+}
+
 .submitBtn {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 15px;
