@@ -42,7 +42,7 @@ export default function SignupForm() {
 
     setLoading(true);
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -52,12 +52,18 @@ export default function SignupForm() {
           university,
           grad_year: gradYear,
         },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? window.location.origin}/auth/callback`,
+        emailRedirectTo: `https://csa-uk-website-iota.vercel.app/auth/callback`,
       },
     });
 
     if (error) {
       setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    if (data.user && data.user.identities?.length === 0) {
+      setError('An account with this email already exists. Please sign in instead.');
       setLoading(false);
       return;
     }
@@ -71,7 +77,7 @@ export default function SignupForm() {
     const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? window.location.origin}/auth/callback` },
+      options: { redirectTo: `https://csa-uk-website-iota.vercel.app/auth/callback` },
     });
   }
 

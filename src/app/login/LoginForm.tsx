@@ -36,7 +36,7 @@ export default function LoginForm() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `https://csa-uk-website-iota.vercel.app/auth/callback`,
       },
     });
   }

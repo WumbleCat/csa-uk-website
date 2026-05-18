@@ -23,10 +23,9 @@ export default function ForgotPasswordForm() {
 
     setLoading(true);
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? window.location.origin;
     const supabase = createClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${siteUrl}/auth/callback?next=/auth/reset-password`,
+      redirectTo: `https://csa-uk-website-iota.vercel.app/auth/callback?next=/auth/reset-password`,
     });
 
     if (error) {
