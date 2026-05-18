@@ -73,6 +73,14 @@
   padding-bottom: 1px;
 }
 
+.authLoading {
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 15px;
+  color: var(--ink-faint);
+  letter-spacing: 2px;
+  user-select: none;
+}
+
 .joinBtn {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 14px;

@@ -28,8 +28,21 @@ export async function GET(request: Request) {
       }
     );
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { error, data } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      if (data.user) {
+        const meta = data.user.user_metadata;
+        await supabase.from('profiles').upsert(
+          {
+            id: data.user.id,
+            first_name: meta.first_name ?? '',
+            last_name: meta.last_name ?? '',
+            university: meta.university ?? '',
+            grad_year: meta.grad_year ? parseInt(meta.grad_year, 10) : null,
+          },
+          { onConflict: 'id', ignoreDuplicates: true }
+        );
+      }
       return NextResponse.redirect(`${origin}${next}`);
     }
   }

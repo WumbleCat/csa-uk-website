@@ -19,10 +19,14 @@ export default function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+      setAuthLoading(false);
+    });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
       setUser(session?.user ?? null);
     });
@@ -54,7 +58,9 @@ export default function Nav() {
               {l.label}
             </Link>
           ))}
-          {user ? (
+          {authLoading ? (
+            <span className={styles.authLoading}>···</span>
+          ) : user ? (
             <Link
               href="/account"
               className={`${styles.link} ${pathname === '/account' ? styles.active : ''}`}
@@ -97,7 +103,9 @@ export default function Nav() {
               {l.label}
             </Link>
           ))}
-          {user ? (
+          {authLoading ? (
+            <span className={`${styles.mobileLink} ${styles.authLoading}`}>···</span>
+          ) : user ? (
             <Link
               href="/account"
               className={`${styles.mobileLink} ${pathname === '/account' ? styles.mobileLinkActive : ''}`}

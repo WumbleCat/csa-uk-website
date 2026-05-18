@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import { checkRateLimit, markRateLimit } from '@/lib/rateLimit';
 import styles from './signup.module.css';
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -33,6 +34,12 @@ export default function SignupForm() {
       return;
     }
 
+    const { allowed, secondsLeft } = checkRateLimit('rl_signup');
+    if (!allowed) {
+      setError(`Please wait ${secondsLeft}s before trying again.`);
+      return;
+    }
+
     setLoading(true);
     const supabase = createClient();
     const { error } = await supabase.auth.signUp({
@@ -55,6 +62,7 @@ export default function SignupForm() {
       return;
     }
 
+    markRateLimit('rl_signup');
     setSuccess(true);
     setLoading(false);
   }
