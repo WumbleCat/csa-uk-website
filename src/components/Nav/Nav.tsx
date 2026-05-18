@@ -69,10 +69,10 @@ export default function Nav() {
             </Link>
           ) : (
             <Link
-              href="/login"
-              className={`${styles.link} ${pathname === '/login' ? styles.active : ''}`}
+              href="/signup"
+              className={`${styles.link} ${pathname === '/signup' ? styles.active : ''}`}
             >
-              Login
+              Sign up
             </Link>
           )}
           <Link
@@ -115,11 +115,11 @@ export default function Nav() {
             </Link>
           ) : (
             <Link
-              href="/login"
-              className={`${styles.mobileLink} ${pathname === '/login' ? styles.mobileLinkActive : ''}`}
+              href="/signup"
+              className={`${styles.mobileLink} ${pathname === '/signup' ? styles.mobileLinkActive : ''}`}
               onClick={() => setOpen(false)}
             >
-              Login
+              Sign up
             </Link>
           )}
           <Link
